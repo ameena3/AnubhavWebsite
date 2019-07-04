@@ -1,7 +1,7 @@
 package main
 
 import (
-	"io"
+	"fmt"
 	"net/http"
 )
 
@@ -13,5 +13,5 @@ func main() {
 //DefaultHandler ...
 func DefaultHandler(w http.ResponseWriter, r *http.Request) {
 
-	io.WriteString(w, "Hey there Anubhav")
+	fmt.Fprintf(w, "Hey there Anubhav \n")
 }
