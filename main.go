@@ -2,13 +2,46 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"net/http"
 )
 
 func main() {
 	fmt.Println("Listening at port 80")
-	if err := http.ListenAndServe(":80", http.FileServer(http.Dir("Public"))); err != nil {
-		fmt.Println(err.Error())
-	}
+	templates := loadtemplates()
 
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		requestedFile := r.URL.Path[1:]
+		if requestedFile == "" {
+			requestedFile = "index"
+		}
+		t := templates.Lookup(requestedFile + ".html")
+
+		if t != nil {
+			err := t.Execute(w, nil)
+			catcherror(err)
+		} else {
+			w.WriteHeader(http.StatusNotFound)
+		}
+	})
+	http.Handle("/images/", http.FileServer(http.Dir("Public")))
+	http.Handle("/css/", http.FileServer(http.Dir("Public")))
+	http.Handle("/fonts/", http.FileServer(http.Dir("Public")))
+	http.Handle("/js/", http.FileServer(http.Dir("Public")))
+	err := http.ListenAndServe(":80", nil)
+	catcherror(err)
+
+}
+
+func loadtemplates() *template.Template {
+	result := template.New("templates")
+	template.Must(result.ParseGlob("templates/*.html"))
+	return result
+}
+
+func catcherror(err error) {
+	if err != nil {
+		fmt.Println(err)
+
+	}
 }
