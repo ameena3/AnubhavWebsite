@@ -28,6 +28,9 @@ func main() {
 	http.Handle("/css/", http.FileServer(http.Dir("Public")))
 	http.Handle("/fonts/", http.FileServer(http.Dir("Public")))
 	http.Handle("/js/", http.FileServer(http.Dir("Public")))
+	http.HandleFunc("/control", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "This is the control.")
+	})
 	err := http.ListenAndServe(":80", nil)
 	catcherror(err)
 
