@@ -1,0 +1,22 @@
+{
+  "name": "anubhavwebsite",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel Public/index.html --port 3000",
+    "build": "parcel build Public/index.html"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "parcel": "^2.8.3",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "process": "^0.11.10"
+  }
+}
